@@ -1,6 +1,6 @@
 WITH 
 survey AS(
-    SELECT * FROM `cloudside-academy.dbt_sample_data.annual-enterprise-survey01`
+    SELECT * FROM `cloudside-academy.lakshana_test.annual-enterprise-survey01`
 ),
 
 a AS(
