@@ -12,7 +12,6 @@ inter as(
     RIGHT JOIN
         (
         SELECT
-            Industry_aggregation_NZSIOC,
             year,
             id,
             serial_number,
