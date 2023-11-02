@@ -1,34 +1,32 @@
 WITH
 {{config(materialized='view')}}
 
-inter as(
-    select
-        CAST(value AS INT64) AS value_as_int,
-        {{ dbt_utils.star(from=ref('stg_aes01'), except=["serial_number"]) }},
-        {{ dbt_utils.star(from=ref('stg_aes02'), except=["Year","id","serial_number"]) }}
+inter AS(
+    SELECT
+        t1.id,
+        t1.year, t1.Industry_aggregation_NZSIOC, t2.value
 
     FROM
-        {{ ref('stg_aes02') }} AS t2
+        {{ ref('stg_aes01') }} AS t2
     RIGHT JOIN
         (
         SELECT
-            year,
-            id,
-            serial_number,
-            CAST(value AS INT64) AS value_as_int
+                {{ dbt_utils.star(from=ref('stg_aes01')) }},
+                {{ dbt_utils.star(from=ref('stg_aes02'), except=["value","Year","id","serial_number"])>
+                CAST(value AS INT64) AS value_as_int
         FROM
-            {{ ref('stg_aes01') }}   
+            {{ ref('stg_aes02') }}
         GROUP BY
             id,
             Industry_aggregation_NZSIOC,
             serial_number,
             value,
             Year
-) AS t2
+) AS t1
     ON
         t1.id = t2.serial_number
     WHERE
         t1.year=2013
 )
 
-Select * from inter
+SELECT * FROM inter
