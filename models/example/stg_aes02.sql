@@ -1,14 +1,16 @@
-WITH 
+WITH
 survey AS(
-    SELECT * FROM `cloudside-academy.lakshana_test.annual-enterprise-survey02`
+    SELECT * FROM `cloudside-academy.lakshana_test.annual_enterprise_survey02`
 ),
 
-a AS(
-    SELECT 
-        Year,
+b AS(
+    SELECT
+        Year,id,
         value,
-        serial_number
-    FROM a 
+        serial_number,
+        Industry_aggregation_NZSIOC
+    FROM survey
 )
 
-select * from a
+select * from b
+
